@@ -67,7 +67,7 @@ async fn main() -> std::io::Result<()> {
     // URLs
     let mewing_menu_url = std::env::var("MEWING_MENU_URL").unwrap_or_else(|_| "http://localhost:8080/api".to_string());
     let ohio_order_url = std::env::var("OHIO_ORDER_URL").unwrap_or_else(|_| "http://localhost:8080/api".to_string());
-    let sigma_auth_url = std::env::var("OHIO_ORDER_URL").unwrap_or_else(|_| "http://localhost:8080/api".to_string());
+    let sigma_auth_url = std::env::var("SIGMA_AUTH_URL").unwrap_or_else(|_| "http://localhost:8080/api".to_string());
 
     // Define route mappings
     let mut routes = ProxyMap::new();
