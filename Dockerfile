@@ -1,11 +1,22 @@
-# 1. This tells docker to use the Rust official image
-FROM rust:latest
+FROM rust:1.86-alpine AS builder
 
-# 2. Copy the files in your machine to the Docker image
-COPY ./ ./
+RUN apk add --no-cache musl-dev gcc make pkgconfig openssl-dev openssl-libs-static
 
-# Build your program for release
-RUN cargo build --release
+WORKDIR /app
 
-# Run the binary
-CMD ["./target/release/proxy"]
+COPY . .
+
+RUN rustup target add x86_64-unknown-linux-musl && \
+    cargo build --release --target x86_64-unknown-linux-musl
+
+FROM alpine:3.21
+
+RUN apk add --no-cache libgcc
+
+WORKDIR /app
+
+COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/proxy .
+
+EXPOSE 5000
+
+ENTRYPOINT [ "./proxy" ]
