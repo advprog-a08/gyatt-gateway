@@ -87,9 +87,9 @@ async fn main() -> std::io::Result<()> {
     // Define route mappings
     let mut routes = ProxyMap::new();
 
-    routes.insert("/mewing", mewing_menu_url);
-    routes.insert("/ohio", ohio_order_url);
-    routes.insert("/sigma", sigma_auth_url);
+    routes.insert("/v1/mewing", mewing_menu_url);
+    routes.insert("/v1/ohio", ohio_order_url);
+    routes.insert("/v1/sigma", sigma_auth_url);
 
     let data = web::Data::new(routes);
 
