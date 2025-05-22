@@ -95,25 +95,8 @@ async fn main() -> std::io::Result<()> {
 
     println!("API Gateway Proxy running at http://localhost:{}", port);
 
-    let allowed_origins = vec![
-        "http://localhost:3000",
-        "https://rizzserve.site",
-        "https://api.rizzserve.site",
-    ];
-
     HttpServer::new(move || {
-        let mut cors = Cors::default()
-            .allowed_methods(vec!["GET", "POST", "PUT", "DELETE", "OPTIONS"])
-            .allowed_headers(vec![
-                actix_web::http::header::AUTHORIZATION,
-                actix_web::http::header::ACCEPT,
-                actix_web::http::header::CONTENT_TYPE,
-            ])
-            .max_age(3600);
-
-        for origin in &allowed_origins {
-            cors = cors.allowed_origin(origin);
-        }
+        let cors = Cors::permissive();
 
         App::new()
             .app_data(data.clone())
